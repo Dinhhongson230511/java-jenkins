@@ -11,7 +11,7 @@ pipeline {
         NEXUS_PASS = 'dHS|sondh3@Rikkeisoft|dHS'
         RELEASE_REPO = 'project-release-artifacts'
         CENTRAL_REPO = 'project-maven-central'
-        NEXUS_IP = '172.31.39.124'
+        NEXUS_IP = '172.31.38.254'
         NEXUS_PORT = '8081'
         NEXUS_GRP_REPO = 'project-maven-group'
         NEXUS_LOGIN = 'Nexuslogin'
