@@ -14,7 +14,7 @@ pipeline {
         NEXUS_IP = '172.31.39.124'
         NEXUS_PORT = '8081'
         NEXUS_GRP_REPO = 'project-maven-group'
-        NEXUS_LOGIN = 'nexuslogin'
+        NEXUS_LOGIN = 'Nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
     }
