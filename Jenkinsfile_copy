@@ -2,6 +2,7 @@ pipeline {
     
 	agent any
 /*	
+    #setting
 	tools {
         maven "maven3"
 	
