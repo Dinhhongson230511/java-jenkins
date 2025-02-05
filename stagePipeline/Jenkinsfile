@@ -104,6 +104,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry( vprofileRegistry, registryCredential) {
+                        echo "Pushing Docker Image..."
+                        echo "Pushing Docker Image $BUILD_NUMBER"
                         dockerImage.push("$BUILD_NUMBER")
                         dockerImage.push('latest')
                     }
