@@ -2,19 +2,19 @@ pipeline {
     agent any
     tools {
         maven "MAVEN3"
-        jdk "Java_Home"
+        jdk "OracleJDK17"
     }
 
     environment {
-        SNAP_REPO = 'project-snapshots'
+        SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
-        NEXUS_PASS = 'dHS|sondh3@Rikkeisoft|dHS'
-        RELEASE_REPO = 'project-release-artifacts'
-        CENTRAL_REPO = 'project-maven-central'
-        NEXUS_IP = '172.31.38.254'
+        NEXUS_PASS = 'admin123'
+        RELEASE_REPO = 'vprofile-release'
+        CENTRAL_REPO = 'vpro-maven-central'
+        NEXUS_IP = '172.31.82.244'
         NEXUS_PORT = '8081'
-        NEXUS_GRP_REPO = 'project-maven-group'
-        NEXUS_LOGIN = 'Nexuslogin'
+        NEXUS_GRP_REPO = 'vpro-maven-group'
+        NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
     }
@@ -33,26 +33,15 @@ pipeline {
             
         }
 
-	    stage('UNIT TEST'){
+        stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -s settings.xml test'
             }
         }
 
-	    stage('INTEGRATION TEST'){
+        stage('Checkstyle Analysis') {
             steps {
-                sh 'mvn verify -DskipUnitTests'
-            }
-        }
-		
-        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
-            steps {
-                sh 'mvn checkstyle:checkstyle'
-            }
-            post {
-                success {
-                    echo 'Generated Analysis Result'
-                }
+                sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
 
@@ -74,15 +63,7 @@ pipeline {
             }
         }
 
-        // stage('Quality Gate') {
-        //     steps {
-        //         timeout(time: 10, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
-
-        stage ("Upload Artifact") {
+         stage ("Upload Artifact") {
             steps {
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
@@ -101,5 +82,6 @@ pipeline {
                 )
             }
         }
-    }    
+    
+    }        
 }
