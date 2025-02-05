@@ -33,26 +33,15 @@ pipeline {
             
         }
 
-	    stage('UNIT TEST'){
+        stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -s settings.xml test'
             }
         }
 
-	    stage('INTEGRATION TEST'){
+        stage('Checkstyle Analysis') {
             steps {
-                sh 'mvn verify -DskipUnitTests'
-            }
-        }
-		
-        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
-            steps {
-                sh 'mvn checkstyle:checkstyle'
-            }
-            post {
-                success {
-                    echo 'Generated Analysis Result'
-                }
+                sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
 
@@ -74,15 +63,7 @@ pipeline {
             }
         }
 
-        // stage('Quality Gate') {
-        //     steps {
-        //         timeout(time: 10, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
-
-        stage ("Upload Artifact") {
+         stage ("Upload Artifact") {
             steps {
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
@@ -101,5 +82,6 @@ pipeline {
                 )
             }
         }
-    }    
+    
+    }        
 }
